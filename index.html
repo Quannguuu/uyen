@@ -30,7 +30,7 @@
 </head>
 <body>
 
-    <h1>Vườn hoa tặng Uyên</h1>
+    <h1>Hoa nhà "trồng"</h1>
 
     <div class="controls">
         <button id="clean-btn">Xóa tất cả</button>
@@ -53,9 +53,13 @@
         canvas.height = 600;
 
         const palettes = [
-            { main: 'rgba(255, 20, 100, 0.8)', light: 'rgba(255, 180, 210, 0.9)' },
-            { main: 'rgba(0, 220, 255, 0.8)', light: 'rgba(180, 250, 255, 0.9)' },
-            { main: 'rgba(160, 50, 255, 0.8)', light: 'rgba(220, 180, 255, 0.9)' }
+            { main: 'rgba(255, 20, 100, 0.8)', light: 'rgba(255, 180, 210, 0.9)' },  // Hồng đậm
+            { main: 'rgba(0, 220, 255, 0.8)', light: 'rgba(180, 250, 255, 0.9)' },  // Xanh dương neon
+            { main: 'rgba(160, 50, 255, 0.8)', light: 'rgba(220, 180, 255, 0.9)' }, // Tím điện tử
+            { main: 'rgba(255, 200, 0, 0.8)', light: 'rgba(255, 255, 150, 0.9)' },  // Vàng nắng
+            { main: 'rgba(255, 100, 0, 0.8)', light: 'rgba(255, 200, 100, 0.9)' },  // Cam hoàng hôn
+            { main: 'rgba(0, 255, 150, 0.8)', light: 'rgba(150, 255, 220, 0.9)' },  // Xanh ngọc
+            { main: 'rgba(255, 255, 255, 0.7)', light: 'rgba(200, 230, 255, 0.9)' } // Trắng kim cương
         ];
 
         function random(min, max) { return Math.random() * (max - min) + min; }
@@ -63,7 +67,6 @@
         function drawFlowerHead(x, y, angle, scale) {
             const colorSet = palettes[Math.floor(Math.random() * palettes.length)];
             
-           
             const numPetals = 4; 
             const petalLength = 55 * scale;
             const petalWidth = 18 * scale;
@@ -72,7 +75,7 @@
             ctx.translate(x, y);
             ctx.rotate(angle + Math.PI / 2); 
 
-            // Đài hoa nhỏ gọn
+    
             ctx.fillStyle = '#1e3d2f';
             ctx.beginPath();
             ctx.arc(0, 0, 2.5, 0, Math.PI * 2);
@@ -174,11 +177,10 @@
 
         saveBtn.addEventListener('click', () => {
             const link = document.createElement('a');
-            link.download = 'minimal-neon-flower.png';
+            link.download = 'tang-le-uyen.png';
             link.href = canvas.toDataURL();
             link.click();
         });
     </script>
 </body>
-
 </html>
