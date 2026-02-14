@@ -2,395 +2,213 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine Letter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tặng Lê Uyên</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: none; }
         body {
+            background: #050505;
+            font-family: 'Segoe UI', sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            width: 100vw;
             overflow: hidden;
-            position: relative;
+            color: #eee;
         }
-
-        /* Hiệu ứng trái tim rơi */
-        .floating-hearts {
-            position: fixed;
-            top: -50px;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
+        h1 { 
+            margin: 20px 0 15px 0; 
+            font-weight: 200; 
+            letter-spacing: 4px; 
+            text-transform: uppercase; 
+            opacity: 0.8; 
+            font-size: 1.2rem;
+            text-align: center;
         }
-
-        .floating-heart {
-            position: absolute;
-            font-size: 20px;
-            color: rgba(255, 105, 180, 0.7);
-            animation: fall linear infinite;
+       
+        .controls { 
+            margin-bottom: 20px; 
+            display: flex; 
+            gap: 15px; 
+            z-index: 10;
         }
-
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-            }
+        button {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #eee; 
+            padding: 10px 24px; 
+            border-radius: 30px;
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
-
-        .container {
-            position: relative;
-            z-index: 1;
+        button:hover { 
+            background: rgba(255, 255, 255, 0.15); 
+            transform: translateY(-1px); 
         }
-
-        /* Hiệu ứng ánh sáng */
-        .glow {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255,182,193,0.4) 0%, transparent 70%);
-            border-radius: 50%;
-            filter: blur(40px);
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.2); opacity: 0.8; }
-        }
-
-        .envelope-wrapper {
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .envelope-wrapper:hover {
-            transform: scale(1.05);
-        }
-
-        .envelope {
-            position: relative;
-            width: 320px;
-            height: 220px;
-            background-color: #f08080;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            border-radius: 5px;
-        }
-
-        .lid {
+      
+        #canvas { 
+            display: block; 
             position: absolute;
             top: 0;
             left: 0;
-            border-left: 160px solid transparent;
-            border-right: 160px solid transparent;
-            border-top: 120px solid #f08080;
-            transform-origin: top;
-            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 4;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+            z-index: 1;
         }
-
-        .card {
-            position: absolute;
-            bottom: 10px;
-            left: 30px;
-            width: 260px;
-            height: 180px;
-            background: linear-gradient(135deg, #fff 0%, #fff5f5 100%);
-            padding: 20px;
-            border-radius: 8px;
-            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 2;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,182,193,0.1), transparent);
-            transform: rotate(45deg);
-            animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        .card-content {
+       
+        h1, .controls {
             position: relative;
-            z-index: 1;
-            text-align: center;
-        }
-
-        .card p {
-            margin: 10px 0;
-            font-size: 16px;
-            color: #333;
-            line-height: 1.6;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
-        }
-
-        .envelope-wrapper.open .card p {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .envelope-wrapper.open .card p:nth-child(1) {
-            transition-delay: 0.3s;
-        }
-
-        .envelope-wrapper.open .card p:nth-child(2) {
-            transition-delay: 0.5s;
-            font-weight: bold;
-            font-size: 20px;
-            color: #ff6b9d;
-        }
-
-        .envelope-wrapper.open .card p:nth-child(3) {
-            transition-delay: 0.7s;
-        }
-
-        .heart {
-            color: #ff1744;
-            font-size: 40px;
-            display: inline-block;
-            animation: heartbeat 1.5s ease-in-out infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            25% { transform: scale(1.2); }
-            50% { transform: scale(1); }
-        }
-
-        .front {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            border-left: 160px solid #f4978e;
-            border-right: 160px solid #f4978e;
-            border-top: 110px solid transparent;
-            border-bottom: 110px solid #f4978e;
-            z-index: 3;
-        }
-
-        .envelope-wrapper.open .lid {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
-
-        .envelope-wrapper.open .card {
-            transform: translateY(-140px);
-            z-index: 5;
-        }
-
-        /* Nút click hint */
-        .click-hint {
-            position: absolute;
-            bottom: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255,255,255,0.9);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            color: #f08080;
-            animation: bounce 2s infinite;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            transition: opacity 0.3s ease;
-        }
-
-        .envelope-wrapper.open .click-hint {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-10px); }
-        }
-
-        /* Confetti khi mở */
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #f08080;
-            position: absolute;
-            animation: confetti-fall 3s linear;
-        }
-
-        @keyframes confetti-fall {
-            to {
-                transform: translateY(100vh) rotate(720deg);
-                opacity: 0;
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 480px) {
-            .envelope {
-                width: 260px;
-                height: 180px;
-            }
-            
-            .lid {
-                border-left: 130px solid transparent;
-                border-right: 130px solid transparent;
-                border-top: 95px solid #f08080;
-            }
-            
-            .card {
-                width: 200px;
-                height: 140px;
-                left: 30px;
-                padding: 15px;
-            }
-            
-            .card p {
-                font-size: 14px;
-                margin: 8px 0;
-            }
-            
-            .envelope-wrapper.open .card p:nth-child(2) {
-                font-size: 18px;
-            }
-            
-            .heart {
-                font-size: 32px;
-            }
-            
-            .front {
-                border-left: 130px solid #f4978e;
-                border-right: 130px solid #f4978e;
-                border-top: 90px solid transparent;
-                border-bottom: 90px solid #f4978e;
-            }
-            
-            .click-hint {
-                font-size: 12px;
-                padding: 6px 12px;
-            }
-        }
-        
-        @media (max-width: 360px) {
-            .envelope {
-                width: 240px;
-                height: 165px;
-            }
-            
-            .lid {
-                border-left: 120px solid transparent;
-                border-right: 120px solid transparent;
-                border-top: 88px solid #f08080;
-            }
-            
-            .card {
-                width: 185px;
-                height: 130px;
-                left: 27px;
-            }
-            
-            .front {
-                border-left: 120px solid #f4978e;
-                border-right: 120px solid #f4978e;
-                border-top: 83px solid transparent;
-                border-bottom: 82px solid #f4978e;
-            }
+            z-index: 2;
         }
     </style>
 </head>
 <body>
-    <div class="floating-hearts" id="hearts"></div>
-    <div class="glow"></div>
-    
-    <div class="container">
-        <div class="envelope-wrapper" id="envelope">
-            <div class="envelope">
-                <div class="lid"></div>
-                <div class="card">
-                    <div class="card-content">
-                        <p>Gửi bạn Lê Uyên giấu tên,</p>
-                        <p>Anh yêu em ❤️</p>
-                        <p class="heart">💕</p>
-                    </div>
-                </div>
-                <div class="front"></div>
-            </div>
-            <div class="click-hint">👆 Nhấn vào đây</div>
-        </div>
+
+    <h1>Hoa nhà "trồng" của Uyên</h1>
+
+    <div class="controls">
+        <button id="clean-btn">Xóa tất cả</button>
+        <button id="auto-grow-btn">Mọc tự động</button>
+        <button id="save-btn">Lưu ảnh</button>
     </div>
 
+    <canvas id="canvas"></canvas>
+
     <script>
-        const envelope = document.getElementById('envelope');
-        const heartsContainer = document.getElementById('hearts');
-        let isOpen = false;
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const cleanBtn = document.getElementById('clean-btn');
+        const autoGrowBtn = document.getElementById('auto-grow-btn');
+        const saveBtn = document.getElementById('save-btn');
 
-        // Tạo trái tim rơi
-        function createFloatingHeart() {
-            const heart = document.createElement('div');
-            heart.className = 'floating-heart';
-            heart.textContent = ['❤️', '💕', '💖', '💗', '💓'][Math.floor(Math.random() * 5)];
-            heart.style.left = Math.random() * 100 + '%';
-            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
-            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-            heartsContainer.appendChild(heart);
-
-            setTimeout(() => heart.remove(), 7000);
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
+        window.addEventListener('resize', resize);
+        resize();
 
-        // Tạo trái tim liên tục
-        setInterval(createFloatingHeart, 300);
+        const palettes = [
+            { main: 'rgba(255, 20, 100, 0.8)', light: 'rgba(255, 180, 210, 0.9)' },
+            { main: 'rgba(0, 220, 255, 0.8)', light: 'rgba(180, 250, 255, 0.9)' },
+            { main: 'rgba(160, 50, 255, 0.8)', light: 'rgba(220, 180, 255, 0.9)' },
+            { main: 'rgba(255, 200, 0, 0.8)', light: 'rgba(255, 255, 150, 0.9)' },
+            { main: 'rgba(255, 100, 0, 0.8)', light: 'rgba(255, 200, 100, 0.9)' },
+            { main: 'rgba(0, 255, 150, 0.8)', light: 'rgba(150, 255, 220, 0.9)' },
+            { main: 'rgba(255, 255, 255, 0.7)', light: 'rgba(200, 230, 255, 0.9)' }
+        ];
 
-        // Tạo confetti
-        function createConfetti() {
-            const colors = ['#ff6b9d', '#f08080', '#ff1744', '#ffc1cc', '#ffb6c1'];
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = (Math.random() * 100) + '%';
-                    confetti.style.top = '50%';
-                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-                    document.body.appendChild(confetti);
+        function random(min, max) { return Math.random() * (max - min) + min; }
 
-                    setTimeout(() => confetti.remove(), 3000);
-                }, i * 30);
+        function drawFlowerHead(x, y, angle, scale) {
+            const colorSet = palettes[Math.floor(Math.random() * palettes.length)];
+            const numPetals = 4; 
+            const petalLength = 50 * scale;
+            const petalWidth = 15 * scale;
+
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle + Math.PI / 2); 
+            ctx.fillStyle = '#1e3d2f';
+            ctx.beginPath();
+            ctx.arc(0, 0, 2, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.globalAlpha = 0.85;
+            const totalSpread = Math.PI * 0.4; 
+            const angleStep = totalSpread / (numPetals - 1);
+
+            for (let i = 0; i < numPetals; i++) {
+                const petalAngle = (i * angleStep) - (totalSpread / 2);
+                ctx.save();
+                ctx.rotate(petalAngle);
+                const grad = ctx.createLinearGradient(0, 0, 0, -petalLength);
+                grad.addColorStop(0, colorSet.main);
+                grad.addColorStop(1, colorSet.light);
+                ctx.fillStyle = grad;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = colorSet.main;
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(-petalWidth, -petalLength * 0.4, -petalWidth * 0.5, -petalLength, 0, -petalLength);
+                ctx.bezierCurveTo(petalWidth * 0.5, -petalLength, petalWidth, -petalLength * 0.4, 0, 0);
+                ctx.fill();
+                ctx.restore();
             }
+            ctx.restore();
         }
 
-        // Toggle phong bì
-        envelope.addEventListener('click', function() {
-            envelope.classList.toggle('open');
-            
-            if (!isOpen) {
-                createConfetti();
-                isOpen = true;
+        function growFlower(targetX, targetY) {
+            const startX = targetX + random(-10, 10);
+            const startY = canvas.height + 10;
+            let progress = 0;
+            const speed = 0.02;
+            const cp1x = startX + random(-40, 40);
+            const cp1y = startY - (startY - targetY) * 0.35;
+            const cp2x = targetX + random(-40, 40);
+            const cp2y = startY - (startY - targetY) * 0.65;
+
+            function animate() {
+                if (progress <= 1) {
+                    const t = progress;
+                    const xt = Math.pow(1-t, 3)*startX + 3*Math.pow(1-t, 2)*t*cp1x + 3*(1-t)*Math.pow(t, 2)*cp2x + Math.pow(t, 3)*targetX;
+                    const yt = Math.pow(1-t, 3)*startY + 3*Math.pow(1-t, 2)*t*cp1y + 3*(1-t)*Math.pow(t, 2)*cp2y + Math.pow(t, 3)*targetY;
+                    const tPrev = Math.max(0, t - 0.02);
+                    const xPrev = Math.pow(1-tPrev, 3)*startX + 3*Math.pow(1-tPrev, 2)*tPrev*cp1x + 3*(1-tPrev)*Math.pow(tPrev, 2)*cp2x + Math.pow(tPrev, 3)*targetX;
+                    const yPrev = Math.pow(1-tPrev, 3)*startY + 3*Math.pow(1-tPrev, 2)*tPrev*cp1y + 3*(1-tPrev)*Math.pow(tPrev, 2)*cp2y + Math.pow(tPrev, 3)*targetY;
+
+                    ctx.beginPath();
+                    ctx.strokeStyle = '#2d5a45';
+                    ctx.lineWidth = 3 - (3 - 1) * t; 
+                    ctx.lineCap = 'round';
+                    ctx.moveTo(xPrev, yPrev);
+                    ctx.lineTo(xt, yt);
+                    ctx.stroke();
+                    progress += speed;
+                    requestAnimationFrame(animate);
+                } else {
+                    const tx = 3 * Math.pow(1-1, 2)*(cp1x-startX) + 6*(1-1)*1*(cp2x-cp1x) + 3*Math.pow(1, 2)*(targetX-cp2x);
+                    const ty = 3 * Math.pow(1-1, 2)*(cp1y-startY) + 6*(1-1)*1*(cp2y-cp1y) + 3*Math.pow(1, 2)*(targetY-cp2y);
+                    drawFlowerHead(targetX, targetY, Math.atan2(ty, tx), random(0.8, 1.1));
+                }
+            }
+            animate();
+        }
+
+        canvas.addEventListener('mousedown', (e) => {
+            growFlower(e.clientX, e.clientY);
+        });
+
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            growFlower(touch.clientX, touch.clientY);
+        }, { passive: false });
+
+        cleanBtn.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        let isAuto = false;
+        let autoInterval;
+        autoGrowBtn.addEventListener('click', () => {
+            isAuto = !isAuto;
+            autoGrowBtn.innerText = isAuto ? "Tạm dừng" : "Mọc tự động";
+            if(isAuto) {
+                autoInterval = setInterval(() => {
+                    growFlower(random(50, canvas.width-50), random(100, canvas.height-200));
+                }, 1000);
+            } else {
+                clearInterval(autoInterval);
             }
         });
 
-        // Khởi tạo một vài trái tim ban đầu
-        for (let i = 0; i < 10; i++) {
-            createFloatingHeart();
-        }
+        saveBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'tang-le-uyen.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
     </script>
 </body>
 </html>
